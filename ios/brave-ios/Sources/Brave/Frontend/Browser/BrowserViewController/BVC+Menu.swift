@@ -40,6 +40,9 @@ extension BrowserViewController {
         },
         openURL: { [weak self] url in
           guard let self = self else { return }
+
+          popToBVC()
+
           self.openURLInNewTab(
             url,
             isPrivate: self.privateBrowsingManager.isPrivateBrowsing,
@@ -93,7 +96,11 @@ extension BrowserViewController {
           self.popToBVC()
           self.present(alert, animated: true)
         },
-        openURL: { [unowned self] url in
+        openURL: { [weak self] url in
+          guard let self = self else { return }
+
+          popToBVC()
+
           self.openURLInNewTab(
             url,
             isPrivate: self.privateBrowsingManager.isPrivateBrowsing,
