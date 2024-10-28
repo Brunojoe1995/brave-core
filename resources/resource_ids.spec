@@ -19,7 +19,7 @@
     "includes": [29670],
   },
   # This file is generated during the build.
-  "<(SHARED_INTERMEDIATE_DIR)/brave/web-ui-brave_new_tab/brave_new_tab.grd": {
+  "<(SHARED_INTERMEDIATE_DIR)/brave/web-ui-brave_new_tab_ui/brave_new_tab_ui.grd": {
     "META": {"sizes": {"includes": [50]}},
     "includes": [29680],
   },
@@ -228,6 +228,10 @@
   "<(SHARED_INTERMEDIATE_DIR)/brave/web-ui-creator_detection/creator_detection.grd": {
     "META": {"sizes": {"includes": [10]}},
     "includes": [34700],
+  },
+  "<(SHARED_INTERMEDIATE_DIR)/brave/web-ui-brave_new_tab/brave_new_tab.grd": {
+    "META": {"sizes": {"includes": [10]}},
+    "includes": [34710],
   },
   # WARNING: The upstream ChromeOS/Ash strings currently run through 36930. We
   # must be careful not to exceed that maximum when adding new strings here.

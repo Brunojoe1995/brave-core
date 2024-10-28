@@ -38,7 +38,7 @@
       <!-- WebUI newtab resources -->
       <!-- TODO: move to brave_new_tab_ui component -->
       <if expr="not is_android">
-        <include name="IDR_BRAVE_NEW_TAB_HTML" file="../brave_new_tab_ui/brave_new_tab.html" type="BINDATA" />
+        <include name="IDR_BRAVE_NEW_TAB_UI_HTML" file="../brave_new_tab_ui/brave_new_tab.html" type="BINDATA" />
         <include name="IDR_BRAVE_NEW_TAB_IMG1" file="../img/newtab/bookmarks_btn.svg" type="BINDATA" />
         <include name="IDR_BRAVE_NEW_TAB_IMG4" file="../img/newtab/history_btn.svg" type="BINDATA" />
         <include name="IDR_BRAVE_NEW_TAB_IMG2" file="../img/newtab/settings_prefs_btn.svg" type="BINDATA" />
@@ -68,6 +68,8 @@
           <include name="IDR_VPN_PANEL_HTML" file="../brave_vpn/resources/panel/vpn_panel.html" type="BINDATA" />
         </if>
       </if>
+
+      <part file="../brave_new_tab/resources/brave_new_tab_resources.grdp" />
 
       <!-- Imagery links -->
       <if expr="not is_android">

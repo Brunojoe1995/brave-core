@@ -245,6 +245,18 @@ source_set("ui") {
       "toolbar/brave_bookmark_sub_menu_model.cc",
       "toolbar/brave_bookmark_sub_menu_model.h",
       "toolbar/brave_recent_tabs_sub_menu_model.h",
+
+      # TODO(zenparsing): "webui/brave_new_tab" should define its own target.
+      # This is currently blocked due to "brave/browser/ntp_background" residing
+      # in the "//chrome/browser" target.
+      "webui/brave_new_tab/custom_image_chooser.cc",
+      "webui/brave_new_tab/custom_image_chooser.h",
+      "webui/brave_new_tab/new_tab_page_handler.cc",
+      "webui/brave_new_tab/new_tab_page_handler.h",
+      "webui/brave_new_tab/new_tab_ui.cc",
+      "webui/brave_new_tab/new_tab_ui.h",
+      "webui/brave_new_tab/update_observer.cc",
+      "webui/brave_new_tab/update_observer.h",
       "webui/brave_rewards/rewards_page_top_ui.cc",
       "webui/brave_rewards/rewards_page_top_ui.h",
       "webui/brave_rewards/rewards_panel_handler.cc",
@@ -332,6 +344,8 @@ source_set("ui") {
       "//base",
       "//brave/browser/profiles:util",
       "//brave/common",
+      "//brave/components/brave_new_tab/common:mojom",
+      "//brave/components/brave_new_tab/resources:generated_resources",
       "//brave/components/constants",
       "//brave/components/misc_metrics",
       "//brave/components/sidebar/browser",
@@ -776,6 +790,7 @@ source_set("ui") {
     "//brave/components/brave_ads/core",
     "//brave/components/brave_federated",
     "//brave/components/brave_federated/public/interfaces",
+    "//brave/components/brave_new_tab/common",
     "//brave/components/brave_news/browser",
     "//brave/components/brave_news/common",
     "//brave/components/brave_perf_predictor/common",
