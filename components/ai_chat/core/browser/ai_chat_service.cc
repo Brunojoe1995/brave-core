@@ -500,18 +500,8 @@ void AIChatService::OnConversationEntryAdded(
   CHECK(conversation_it != conversations_.end());
   mojom::ConversationPtr& conversation = conversation_it->second;
 
-  auto& history = handler->GetConversationHistory();
-
-  if (!conversation->has_content && history.size() > 0) {
+  if (!conversation->has_content) {
     HandleFirstEntry(handler, entry, associated_content_value, conversation);
-    if (ai_chat_metrics_ != nullptr) {
-      if (handler->GetConversationHistory().size() == 1) {
-        ai_chat_metrics_->RecordNewChat();
-      }
-      if (entry->character_type == mojom::CharacterType::HUMAN) {
-        ai_chat_metrics_->RecordNewPrompt();
-      }
-    }
   } else {
     HandleNewEntry(handler, entry, associated_content_value, conversation);
   }
@@ -545,6 +535,12 @@ void AIChatService::HandleFirstEntry(
                   std::optional<std::string>(associated_content_value),
                   entry->Clone())
         .Then(std::move(on_conversation_added));
+  }
+  // Record metrics
+  if (ai_chat_metrics_ != nullptr) {
+    if (handler->GetConversationHistory().size() == 1) {
+      ai_chat_metrics_->RecordNewChat();
+    }
   }
 }
 
@@ -585,6 +581,12 @@ void AIChatService::HandleNewEntry(
                     std::optional<std::string>(associated_content_value))
           .Then(std::move(on_content_updated));
     }
+  }
+
+  // Record metrics
+  if (ai_chat_metrics_ != nullptr &&
+      entry->character_type == mojom::CharacterType::HUMAN) {
+    ai_chat_metrics_->RecordNewPrompt();
   }
 }
 
