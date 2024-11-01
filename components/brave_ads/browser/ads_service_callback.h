@@ -15,6 +15,9 @@
 
 namespace brave_ads {
 
+using GetInternalsCallback =
+    base::OnceCallback<void(std::optional<base::Value::List> internals)>;
+
 using GetDiagnosticsCallback =
     base::OnceCallback<void(std::optional<base::Value::List> diagnostics)>;
 

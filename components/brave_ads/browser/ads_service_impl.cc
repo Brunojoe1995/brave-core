@@ -1161,6 +1161,14 @@ void AdsServiceImpl::ClearData() {
   ShutdownClearDataAndMaybeRestart();
 }
 
+void AdsServiceImpl::GetInternals(GetInternalsCallback callback) {
+  if (!bat_ads_associated_remote_.is_bound()) {
+    return std::move(callback).Run(/*internals*/ std::nullopt);
+  }
+
+  bat_ads_associated_remote_->GetInternals(std::move(callback));
+}
+
 void AdsServiceImpl::GetDiagnostics(GetDiagnosticsCallback callback) {
   if (!bat_ads_associated_remote_.is_bound()) {
     return std::move(callback).Run(/*diagnostics*/ std::nullopt);

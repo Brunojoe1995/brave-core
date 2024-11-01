@@ -10,6 +10,7 @@
 
 #include "base/debug/dump_without_crashing.h"
 #include "base/functional/bind.h"
+#include "brave/components/brave_ads/browser/ads_service_callback.h"
 #include "brave/components/brave_ads/core/internal/account/wallet/wallet_util.h"
 #include "brave/components/brave_ads/core/internal/ads_client/ads_client_util.h"
 #include "brave/components/brave_ads/core/internal/ads_core/ads_core_util.h"
@@ -91,6 +92,45 @@ void AdsImpl::Shutdown(ShutdownCallback callback) {
   NotificationAdManager::GetInstance().RemoveAll(/*should_close=*/true);
 
   std::move(callback).Run(/*success=*/true);
+}
+
+void AdsImpl::GetInternals(GetInternalsCallback callback) {
+  if (task_queue_.should_queue()) {
+    return task_queue_.Add(base::BindOnce(&AdsImpl::GetInternals,
+                                          weak_factory_.GetWeakPtr(),
+                                          std::move(callback)));
+  }
+
+  // TODO(tmancey): Decouple.
+  database::table::CreativeSetConversions database_table;
+  database_table.GetActive(base::BindOnce(&AdsImpl::GetActiveCallback,
+                                          weak_factory_.GetWeakPtr(),
+                                          std::move(callback)));
+}
+
+// TODO(tmancey): Decouple.
+void AdsImpl::GetActiveCallback(
+    GetInternalsCallback callback,
+    const bool success,
+    const CreativeSetConversionList& creative_set_conversions) {
+  if (!success) {
+    BLOG(0, "Failed to get creative set conversions");
+    return std::move(callback).Run({});
+  }
+
+  base::Value::List list;
+  for (const auto& creative_set_conversion : creative_set_conversions) {
+    if (!creative_set_conversion.IsValid()) {
+      continue;
+    }
+
+    list.Append(base::Value::Dict()
+                    .Set("URL Pattern", creative_set_conversion.url_pattern)
+                    .Set("Expires At", creative_set_conversion.expire_at
+                                           ->InSecondsFSinceUnixEpoch()));
+  }
+
+  std::move(callback).Run(std::move(list));
 }
 
 void AdsImpl::GetDiagnostics(GetDiagnosticsCallback callback) {

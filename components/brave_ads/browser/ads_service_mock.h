@@ -47,6 +47,8 @@ class AdsServiceMock : public AdsService {
   MOCK_METHOD(void, OnNotificationAdClosed, (const std::string&, bool));
   MOCK_METHOD(void, OnNotificationAdClicked, (const std::string&));
 
+  MOCK_METHOD(void, GetInternals, (GetInternalsCallback));
+
   MOCK_METHOD(void, GetDiagnostics, (GetDiagnosticsCallback));
 
   MOCK_METHOD(void, GetStatementOfAccounts, (GetStatementOfAccountsCallback));

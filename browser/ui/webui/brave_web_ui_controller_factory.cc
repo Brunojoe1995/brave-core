@@ -13,6 +13,7 @@
 #include "base/no_destructor.h"
 #include "brave/browser/brave_rewards/rewards_util.h"
 #include "brave/browser/ethereum_remote_client/buildflags/buildflags.h"
+#include "brave/browser/ui/webui/ads_internals_ui.h"
 #include "brave/browser/ui/webui/brave_rewards/rewards_page_ui.h"
 #include "brave/browser/ui/webui/brave_rewards/rewards_web_ui_utils.h"
 #include "brave/browser/ui/webui/brave_rewards_internals_ui.h"
@@ -89,7 +90,9 @@ WebUIController* NewWebUI(WebUI* web_ui, const GURL& url) {
   auto host = url.host_piece();
   Profile* profile = Profile::FromBrowserContext(
       web_ui->GetWebContents()->GetBrowserContext());
-  if (host == kSkusInternalsHost) {
+  if (host == kAdsInternalsHost) {
+    return new AdsInternalsUI(web_ui, url.host());
+  } else if (host == kSkusInternalsHost) {
     return new SkusInternalsUI(web_ui, url.host());
 #if !BUILDFLAG(IS_ANDROID)
   } else if (host == kWalletPageHost &&
@@ -203,7 +206,8 @@ WebUIFactoryFunction GetWebUIFactoryFunction(WebUI* web_ui,
        ai_rewriter::features::IsAIRewriterEnabled()) ||
 #endif
       url.host_piece() == kRewardsPageHost ||
-      url.host_piece() == kRewardsInternalsHost) {
+      url.host_piece() == kRewardsInternalsHost ||
+      url.host_piece() == kAdsInternalsHost) {
     return &NewWebUI;
   }
 

@@ -100,6 +100,10 @@ class AdsService : public KeyedService {
       mojo::PendingRemote<bat_ads::mojom::BatAdsObserver>
           bat_ads_observer_pending_remote) = 0;
 
+  // Called to get internals. The callback takes one argument -
+  // `base::Value::List` containing info of the obtained internals.
+  virtual void GetInternals(GetInternalsCallback callback) = 0;
+
   // Called to get diagnostics to help identify issues. The callback takes one
   // argument - `base::Value::List` containing info of the obtained diagnostics.
   virtual void GetDiagnostics(GetDiagnosticsCallback callback) = 0;

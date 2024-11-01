@@ -231,6 +231,8 @@ class AdsServiceImpl final : public AdsService,
 
   void ClearData() override;
 
+  void GetInternals(GetInternalsCallback callback) override;
+
   void GetDiagnostics(GetDiagnosticsCallback callback) override;
 
   void GetStatementOfAccounts(GetStatementOfAccountsCallback callback) override;
