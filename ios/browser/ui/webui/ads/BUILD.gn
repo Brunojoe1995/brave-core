@@ -14,14 +14,11 @@ source_set("ads") {
   ]
 
   deps = [
-    "//brave/components/ads/browser",
-    "//brave/components/ads/browser/resources:generated_resources",
-    "//brave/components/ads/common",
-    "//brave/components/ads/common:mojom",
+    "//brave/components/brave_ads/browser/resources:generated_resources",
+    "//brave/components/brave_ads/core",
     "//brave/components/constants",
     "//brave/components/l10n/common",
     "//brave/components/resources:static_resources",
-    "//brave/ios/browser/ads",
     "//components/prefs",
     "//components/resources",
     "//ios/chrome/browser/shared/model/application_context",
@@ -38,5 +35,11 @@ source_set("ads") {
     "//mojo/public/js:resources",
     "//ui/base",
     "//ui/base/clipboard",
+  ]
+
+  public_deps = [
+    "//brave/components/brave_ads/core/mojom",
+    "//brave/components/services/bat_ads/public/interfaces",
+    "//mojo/public/mojom/base",
   ]
 }

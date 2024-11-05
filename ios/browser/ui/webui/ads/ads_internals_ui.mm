@@ -18,12 +18,11 @@
 #include "base/strings/sys_string_conversions.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/task/thread_pool.h"
-#include "brave/browser/brave_ads/ads_service_factory.h"
-#include "brave/components/ads/browser/pref_names.h"
-#include "brave/components/ads/browser/resources/grit/ads_internals_generated_map.h"
+#include "brave/components/brave_ads/browser/resources/grit/ads_internals_generated_map.h"
+#include "brave/components/brave_ads/core/public/ads.h"
+#include "brave/components/brave_ads/core/public/prefs/pref_names.h"
 #include "brave/components/constants/webui_url_constants.h"
 #include "brave/components/l10n/common/localization_util.h"
-#include "brave/ios/browser/ads/ads_service_factory.h"
 #include "components/grit/brave_components_resources.h"
 #include "components/prefs/pref_service.h"
 #include "ios/chrome/browser/shared/model/application_context/application_context.h"
@@ -64,11 +63,6 @@ AdsInternalsUI::AdsInternalsUI(web::WebUIIOS* web_ui, const GURL& url)
                               kAdsInternalsGeneratedSize,
                               IDR_ADS_INTERNALS_HTML);
 
-  ProfileIOS* const profile = ProfileIOS::FromWebUIIOS(web_ui);
-  CHECK(profile);
-
-  ads_service_ = brave_ads::AdsServiceFactory::GetForProfile(profile);
-
   // Bind Mojom Interface
   web_ui->GetWebState()->GetInterfaceBinderForMainFrame()->AddInterface(
       base::BindRepeating(&AdsInternalsUI::BindInterface,
@@ -88,12 +82,26 @@ void AdsInternalsUI::BindInterface(
 
 ///////////////////////////////////////////////////////////////////////////////
 
+brave_ads::Ads* AdsInternalsUI::GetAds() {
+  // ProfileIOS* const profile = ProfileIOS::FromWebUIIOS(web_ui());
+  // CHECK(profile);
+
+  return nullptr;
+}
+
 void AdsInternalsUI::GetAdsInternals(GetAdsInternalsCallback callback) {
-  if (ads_service_) {
-    ads_service_->GetInternals(
-        base::BindOnce(&AdsInternalsUI::GetInternalsCallback,
-                       weak_ptr_factory_.GetWeakPtr(), std::move(callback)));
+  brave_ads::Ads* ads = GetAds();
+  if (!ads) {
+    return std::move(callback).Run("");
   }
+
+  ads->GetInternals(base::BindOnce(&AdsInternalsUI::GetInternalsCallback,
+                                   weak_ptr_factory_.GetWeakPtr(),
+                                   std::move(callback)));
+}
+
+void AdsInternalsUI::ClearAdsData(ClearAdsDataCallback callback) {
+  std::move(callback).Run(true);
 }
 
 void AdsInternalsUI::GetInternalsCallback(

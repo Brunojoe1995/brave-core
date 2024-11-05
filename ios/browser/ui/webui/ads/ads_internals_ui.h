@@ -10,7 +10,6 @@
 
 #include "base/memory/weak_ptr.h"
 #include "base/values.h"
-#include "brave/components/brave_ads/browser/ads_service.h"
 #include "brave/components/services/bat_ads/public/interfaces/bat_ads.mojom.h"
 #include "ios/web/public/webui/web_ui_ios.h"
 #include "ios/web/public/webui/web_ui_ios_controller.h"
@@ -19,6 +18,10 @@
 #include "url/gurl.h"
 
 // MARK: - BASED ON: brave/browser/ui/webui/ads_internals_ui.h
+
+namespace brave_ads {
+class Ads;
+}  // namespace brave_ads
 
 class AdsInternalsUI : public web::WebUIIOSController,
                        bat_ads::mojom::AdsInternals {
@@ -39,11 +42,12 @@ class AdsInternalsUI : public web::WebUIIOSController,
  private:
   // bat_ads::mojom::AdsInternals:
   void GetAdsInternals(GetAdsInternalsCallback callback) override;
+  void ClearAdsData(ClearAdsDataCallback callback) override;
 
   void GetInternalsCallback(GetAdsInternalsCallback callback,
                             std::optional<base::Value::List> value);
 
-  raw_ptr<brave_ads::AdsService> ads_service_ = nullptr;  // Not owned.
+  brave_ads::Ads* GetAds();
 
   mojo::Receiver<bat_ads::mojom::AdsInternals> receiver_{this};
 
