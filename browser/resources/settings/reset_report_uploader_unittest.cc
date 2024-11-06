@@ -5,6 +5,8 @@
 
 #include "chrome/browser/profile_resetter/reset_report_uploader.h"
 
+#include <utility>
+
 #include "base/test/bind.h"
 #include "base/test/task_environment.h"
 #include "services/network/public/cpp/weak_wrapper_shared_url_loader_factory.h"
@@ -38,8 +40,8 @@ TEST_F(ResetReportUploaderTest, NoFetch) {
     base::BindLambdaForTesting([&](const network::ResourceRequest& request) {
                                    network_access_occurred = true;
                                }));
-  ResetReportUploader* uploader =
-    new ResetReportUploader(shared_url_loader_factory());
+  auto uploader =
+      std::make_unique<ResetReportUploader>(shared_url_loader_factory());
   uploader->DispatchReportInternal("");
   EXPECT_FALSE(network_access_occurred);
 }
