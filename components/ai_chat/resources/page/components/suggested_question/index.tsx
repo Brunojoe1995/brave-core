@@ -10,15 +10,25 @@ import styles from './style.module.scss'
 
 export default function SuggestedQuestion({ question }: { question: string }) {
     const context = useConversation()
-    const handleQuestionSubmit = (question: string) => {
+    const handleQuestionSubmit = () => {
         context.conversationHandler?.submitHumanConversationEntry(question)
     }
 
+    // return <div className={styles.suggestion} onClick={handleQuestionSubmit}>
+    //     <Icon className={styles.icon}>💰</Icon>
+    //     {question}
+    // </div>
     return <Button
         kind='outline'
         size='small'
-        onClick={() => handleQuestionSubmit(question)}
-        isDisabled={context.shouldDisableUserInput}>
-        <span className={styles.buttonText}>{question}</span>
+        onClick={() => handleQuestionSubmit()}
+        isDisabled={context.shouldDisableUserInput}
+        className={styles.suggestion}>
+        <div className={styles.container}>
+            <div className={styles.icon}>
+                💰
+            </div>
+            <span className={styles.buttonText}>{question}</span>
+        </div>
     </Button>
 }
