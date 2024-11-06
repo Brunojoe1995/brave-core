@@ -23,9 +23,24 @@ extension BrowserViewController {
         retryStateActive: Preferences.VPN.vpnReceiptStatus.value
           == BraveVPN.ReceiptResponse.Status.retryPeriod.rawValue,
         vpnProductInfo: self.vpnProductInfo,
-        displayVPNDestination: { [unowned self] vc in
-          (self.presentedViewController as? MenuViewController)?
-            .pushInnerMenu(vc)
+        displayVPNDestination: { [unowned self, unowned menuController] vc in
+          if UIDevice.current.userInterfaceIdiom == .pad
+            && UIDevice.current.orientation.isPortrait
+          {
+            vc.title = Strings.VPN.vpnName
+            menuController.presentInnerMenu(vc)
+          } else {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+              if UIDevice.current.orientation.isLandscape {
+                vc.modalPresentationStyle = .fullScreen
+              }
+              menuController.present(vc, animated: true)
+            } else {
+              self.dismiss(animated: true) {
+                self.present(vc, animated: true)
+              }
+            }
+          }
         },
         enableInstalledVPN: { [unowned menuController] in
           // Donate Enable VPN Activity for suggestions
@@ -54,14 +69,13 @@ extension BrowserViewController {
       // Region Button is populated without current selected detail title for features menu
       RegionMenuButton(
         settingTitleEnabled: false,
-        regionSelectAction: {
+        regionSelectAction: { [unowned menuController] in
           let vc = UIHostingController(
             rootView: BraveVPNRegionListView()
           )
           vc.title = Strings.VPN.vpnRegionListServerScreenTitle
 
-          (self.presentedViewController as? MenuViewController)?
-            .pushInnerMenu(vc)
+          menuController.pushInnerMenu(vc)
         }
       )
     }
@@ -80,9 +94,24 @@ extension BrowserViewController {
           == BraveVPN.ReceiptResponse.Status.retryPeriod.rawValue,
         vpnProductInfo: self.vpnProductInfo,
         description: Strings.OptionsMenu.braveVPNItemDescription,
-        displayVPNDestination: { [unowned self] vc in
-          (self.presentedViewController as? MenuViewController)?
-            .pushInnerMenu(vc)
+        displayVPNDestination: { [unowned self, unowned menuController] vc in
+          if UIDevice.current.userInterfaceIdiom == .pad
+            && UIDevice.current.orientation.isPortrait
+          {
+            vc.title = Strings.VPN.vpnName
+            menuController.presentInnerMenu(vc)
+          } else {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+              if UIDevice.current.orientation.isLandscape {
+                vc.modalPresentationStyle = .fullScreen
+              }
+              menuController.present(vc, animated: true)
+            } else {
+              self.dismiss(animated: true) {
+                self.present(vc, animated: true)
+              }
+            }
+          }
         },
         enableInstalledVPN: { [unowned menuController] in
           // Donate Enable VPN Activity for suggestions
@@ -111,14 +140,13 @@ extension BrowserViewController {
 
       // Region Button is populated including the details for privacy feature menu
       RegionMenuButton(
-        regionSelectAction: {
+        regionSelectAction: { [unowned menuController] in
           let vc = UIHostingController(
             rootView: BraveVPNRegionListView()
           )
           vc.title = Strings.VPN.vpnRegionListServerScreenTitle
 
-          (self.presentedViewController as? MenuViewController)?
-            .pushInnerMenu(vc)
+          menuController.pushInnerMenu(vc)
         }
       )
 
