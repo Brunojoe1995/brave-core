@@ -65,14 +65,12 @@ void AdsInternalsUI::GetAdsInternals(GetAdsInternalsCallback callback) {
   }
 }
 
-void AdsInternalsUI::ClearAdsData(ClearAdsDataCallback callback) {
-  if (ads_service_) {
-    // TODO(tmancey): Add a callback to `ClearData`, returning `true` for
-    // success and `false` for failure. Return `false` for now.
-    ads_service_->ClearData();
-
-    std::move(callback).Run(/*success=*/false);
+void AdsInternalsUI::ClearAdsData(brave_ads::ClearDataCallback callback) {
+  if (!ads_service_) {
+    return std::move(callback).Run(/*success=*/false);
   }
+
+  ads_service_->ClearData(std::move(callback));
 }
 
 WEB_UI_CONTROLLER_TYPE_IMPL(AdsInternalsUI)

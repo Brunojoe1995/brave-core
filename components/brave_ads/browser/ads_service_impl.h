@@ -24,6 +24,7 @@
 #include "base/timer/timer.h"
 #include "brave/components/brave_adaptive_captcha/brave_adaptive_captcha_service.h"
 #include "brave/components/brave_ads/browser/ads_service.h"
+#include "brave/components/brave_ads/browser/ads_service_callback.h"
 #include "brave/components/brave_ads/browser/application_state/background_helper.h"
 #include "brave/components/brave_ads/browser/component_updater/resource_component_observer.h"
 #include "brave/components/brave_ads/core/mojom/brave_ads.mojom.h"
@@ -140,8 +141,9 @@ class AdsServiceImpl final : public AdsService,
 
   void NotifyAdsServiceInitialized() const;
 
-  void ShutdownClearDataAndMaybeRestart();
-  void ShutdownClearDataAndMaybeRestartCallback(bool success);
+  void ShutdownClearDataAndMaybeRestart(ClearDataCallback callback);
+  void ShutdownClearDataAndMaybeRestartCallback(ClearDataCallback callback,
+                                                bool success);
 
   void OnExternalWalletConnectedCallback(bool success);
 
@@ -229,7 +231,7 @@ class AdsServiceImpl final : public AdsService,
                               bool by_user) override;
   void OnNotificationAdClicked(const std::string& placement_id) override;
 
-  void ClearData() override;
+  void ClearData(ClearDataCallback callback) override;
 
   void GetInternals(GetInternalsCallback callback) override;
 

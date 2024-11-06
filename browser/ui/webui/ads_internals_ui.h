@@ -12,6 +12,7 @@
 #include "base/memory/weak_ptr.h"
 #include "base/values.h"
 #include "brave/components/brave_ads/browser/ads_service.h"
+#include "brave/components/brave_ads/browser/ads_service_callback.h"
 #include "brave/components/services/bat_ads/public/interfaces/bat_ads.mojom.h"
 #include "content/public/browser/web_ui_controller.h"
 #include "mojo/public/cpp/bindings/receiver.h"
@@ -38,7 +39,7 @@ class AdsInternalsUI : public content::WebUIController,
 
   // bat_ads::mojom::AdsInternals:
   void GetAdsInternals(GetAdsInternalsCallback callback) override;
-  void ClearAdsData(ClearAdsDataCallback callback) override;
+  void ClearAdsData(brave_ads::ClearDataCallback callback) override;
 
   raw_ptr<brave_ads::AdsService> ads_service_ = nullptr;  // Not owned.
 

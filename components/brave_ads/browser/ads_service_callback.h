@@ -15,6 +15,8 @@
 
 namespace brave_ads {
 
+using ClearDataCallback = base::OnceCallback<void(bool success)>;
+
 using GetInternalsCallback =
     base::OnceCallback<void(std::optional<base::Value::List> internals)>;
 

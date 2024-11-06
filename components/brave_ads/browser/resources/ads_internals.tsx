@@ -44,12 +44,12 @@ const Table = styled.table`
 
 const API = AdsInternalsMojo.AdsInternals.getRemote()
 
-const TABLE_COLUMN_URL_PATTERN = 'URL Pattern';
-const TABLE_COLUMN_EXPIRES_AT = 'Expires At';
+const URL_PATTERN_TABLE_COLUMN = 'URL Pattern';
+const EXPIRES_AT_TABLE_COLUMN = 'Expires At';
 
 interface AdsInternal {
-  TABLE_COLUMN_URL_PATTERN: string
-  TABLE_COLUMN_EXPIRES_AT: number
+  URL_PATTERN_TABLE_COLUMN: string
+  EXPIRES_AT_TABLE_COLUMN: number
 }
 
 const App: React.FC = () => {
@@ -60,18 +60,22 @@ const App: React.FC = () => {
       const response = await API.getAdsInternals()
       setAdsInternals(JSON.parse(response.response) || [])
     } catch (error) {
-      console.error('Failed to fetch ads internals:', error)
+      console.error('Error getting ads internals', error)
     }
   }, [])
 
   const clearAdsData = React.useCallback(async () => {
     try {
-      await API.clearAdsData()
-      getAdsInternals()
+      const result = await API.clearAdsData();
+      if (result.success) {
+        getAdsInternals();
+      } else {
+        console.warn('Failed to clear ads data');
+      }
     } catch (error) {
-      console.error("Failed to clear ads data", error)
+      console.error('Error clearing ads data', error);
     }
-  }, [getAdsInternals])
+  }, [getAdsInternals]);
 
   React.useEffect(() => {
     getAdsInternals()
@@ -82,12 +86,12 @@ const App: React.FC = () => {
       <h2>Ads internals</h2>
 
       <ButtonContainer>
-        <button onClick={getAdsInternals}>Fetch Brave Ads conversion URL patterns</button>
+        <button onClick={getAdsInternals}>Refresh</button>
       </ButtonContainer>
 
       <StateContainer>
         <b>Active Brave Ads conversion URL patterns:</b><br /><br />
-        <BraveSearchAdsTable data={adsInternals} /><br /><br />
+        <ConversionUrlPatternsTable data={adsInternals} /><br /><br />
       </StateContainer>
 
       <ButtonContainer>
@@ -98,16 +102,20 @@ const App: React.FC = () => {
 }
 
 const formatUnixEpochToLocalTime = (epoch: number) => {
-  const date = new Date(epoch * 1000)  // Convert seconds to milliseconds
+  const date = new Date(epoch * 1000)  // Convert seconds to milliseconds.
   return date.toLocaleString()
 }
 
-const BraveSearchAdsTable: React.FC<{ data: AdsInternal[] }> = React.memo(({ data }) => {
+const conversionUrlPatternsTableRow = (header: string, row: any) => {
+  return header === EXPIRES_AT_TABLE_COLUMN ? formatUnixEpochToLocalTime(row[header]) : row[header];
+}
+
+const ConversionUrlPatternsTable: React.FC<{ data: AdsInternal[] }> = React.memo(({ data }) => {
   if (data.length === 0) return <p>No Brave Ads conversion URL patterns are currently being matched.</p>
 
-  const tableColumnOrder = [TABLE_COLUMN_URL_PATTERN, TABLE_COLUMN_EXPIRES_AT]
+  const tableColumnOrder = [URL_PATTERN_TABLE_COLUMN, EXPIRES_AT_TABLE_COLUMN]
 
-  const uniqueRows = React.useMemo(() => {
+  const uniqueTableRows = React.useMemo(() => {
     return Array.from(new Set(data.map(item => JSON.stringify(item))))
       .map(item => JSON.parse(item))
   }, [data])
@@ -122,11 +130,11 @@ const BraveSearchAdsTable: React.FC<{ data: AdsInternal[] }> = React.memo(({ dat
         </tr>
       </thead>
       <tbody>
-        {uniqueRows.map((row, index) => (
+        {uniqueTableRows.map((row, index) => (
           <tr key={index}>
             {tableColumnOrder.map((header) => (
               <td key={header}>
-                {header === TABLE_COLUMN_EXPIRES_AT ? formatUnixEpochToLocalTime(row[header]) : row[header]}
+                {conversionUrlPatternsTableRow(header, row)}
               </td>
             ))}
           </tr>
