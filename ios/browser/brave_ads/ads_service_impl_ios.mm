@@ -85,6 +85,12 @@ void AdsServiceImplIOS::RunDBTransaction(
       .Then(std::move(callback));
 }
 
+void AdsServiceImplIOS::GetInternals(GetInternalsCallback callback) {
+  CHECK(IsRunning());
+
+  ads_->GetInternals(std::move(callback));
+}
+
 void AdsServiceImplIOS::ClearData(base::OnceClosure callback) {
   // Ensure the Brave Ads service is stopped before clearing data.
   CHECK(!IsRunning());

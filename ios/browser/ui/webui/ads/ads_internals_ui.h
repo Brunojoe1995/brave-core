@@ -20,7 +20,7 @@
 // MARK: - BASED ON: brave/browser/ui/webui/ads_internals_ui.h
 
 namespace brave_ads {
-class Ads;
+class AdsServiceImplIOS;
 }  // namespace brave_ads
 
 class AdsInternalsUI : public web::WebUIIOSController,
@@ -47,7 +47,7 @@ class AdsInternalsUI : public web::WebUIIOSController,
   void GetInternalsCallback(GetAdsInternalsCallback callback,
                             std::optional<base::Value::List> value);
 
-  brave_ads::Ads* GetAds();
+  brave_ads::AdsServiceImplIOS* GetAdsService();
 
   mojo::Receiver<bat_ads::mojom::AdsInternals> receiver_{this};
 

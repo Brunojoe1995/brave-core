@@ -23,6 +23,8 @@
 #include "brave/components/brave_ads/core/public/prefs/pref_names.h"
 #include "brave/components/constants/webui_url_constants.h"
 #include "brave/components/l10n/common/localization_util.h"
+#include "brave/ios/browser/brave_ads/ads_service_factory_ios.h"
+#include "brave/ios/browser/brave_ads/ads_service_impl_ios.h"
 #include "components/grit/brave_components_resources.h"
 #include "components/prefs/pref_service.h"
 #include "ios/chrome/browser/shared/model/application_context/application_context.h"
@@ -82,26 +84,34 @@ void AdsInternalsUI::BindInterface(
 
 ///////////////////////////////////////////////////////////////////////////////
 
-brave_ads::Ads* AdsInternalsUI::GetAds() {
-  // ProfileIOS* const profile = ProfileIOS::FromWebUIIOS(web_ui());
-  // CHECK(profile);
-
-  return nullptr;
+brave_ads::AdsServiceImplIOS* AdsInternalsUI::GetAdsService() {
+  ProfileIOS* const profile = ProfileIOS::FromWebUIIOS(web_ui());
+  CHECK(profile);
+  return brave_ads::AdsServiceFactoryIOS::GetForBrowserState(profile);
 }
 
 void AdsInternalsUI::GetAdsInternals(GetAdsInternalsCallback callback) {
-  brave_ads::Ads* ads = GetAds();
-  if (!ads) {
+  brave_ads::AdsServiceImplIOS* ads_service = GetAdsService();
+  if (!ads_service) {
     return std::move(callback).Run("");
   }
 
-  ads->GetInternals(base::BindOnce(&AdsInternalsUI::GetInternalsCallback,
-                                   weak_ptr_factory_.GetWeakPtr(),
-                                   std::move(callback)));
+  ads_service->GetInternals(
+      base::BindOnce(&AdsInternalsUI::GetInternalsCallback,
+                     weak_ptr_factory_.GetWeakPtr(), std::move(callback)));
 }
 
 void AdsInternalsUI::ClearAdsData(ClearAdsDataCallback callback) {
-  std::move(callback).Run(true);
+  brave_ads::AdsServiceImplIOS* ads_service = GetAdsService();
+  if (!ads_service) {
+    return std::move(callback).Run(/*success=*/false);
+  }
+
+  ads_service->ClearData(base::BindOnce(
+      [](ClearAdsDataCallback callback) {
+        std::move(callback).Run(/*success=*/true);
+      },
+      std::move(callback)));
 }
 
 void AdsInternalsUI::GetInternalsCallback(

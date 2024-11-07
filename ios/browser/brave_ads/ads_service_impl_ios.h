@@ -15,6 +15,7 @@
 #include "brave/components/brave_ads/core/mojom/brave_ads.mojom-forward.h"
 #include "brave/components/brave_ads/core/public/ads_callback.h"
 #include "brave/components/brave_ads/core/public/ads_client/ads_client_callback.h"
+#include "brave/components/brave_ads/core/public/ads_service/ads_service_callback.h"
 #include "components/keyed_service/core/keyed_service.h"
 
 class PrefService;
@@ -55,6 +56,8 @@ class AdsServiceImplIOS : public KeyedService {
 
   void RunDBTransaction(mojom::DBTransactionInfoPtr mojom_db_transaction,
                         RunDBTransactionCallback callback);
+
+  void GetInternals(GetInternalsCallback callback);
 
   void GetStatementOfAccounts(GetStatementOfAccountsCallback callback);
 
