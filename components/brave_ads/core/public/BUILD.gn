@@ -30,6 +30,7 @@ source_set("headers") {
     "ads_constants.h",
     "ads_feature.h",
     "ads_observer_interface.h",
+    "ads_service/ads_service_callback.h",
     "ads_util.h",
     "database/database.h",
     "export.h",
