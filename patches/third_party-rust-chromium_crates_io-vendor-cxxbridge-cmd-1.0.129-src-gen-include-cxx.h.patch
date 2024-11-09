@@ -1,0 +1,32 @@
+diff --git a/third_party/rust/chromium_crates_io/vendor/cxxbridge-cmd-1.0.129/src/gen/include/cxx.h b/third_party/rust/chromium_crates_io/vendor/cxxbridge-cmd-1.0.129/src/gen/include/cxx.h
+index 3414e4c8a5434f6d43b8bf7a76e634ac0c7d06a5..1b992d4649a9c1d30f633d88d5df2423ca7fbd90 100644
+--- a/third_party/rust/chromium_crates_io/vendor/cxxbridge-cmd-1.0.129/src/gen/include/cxx.h
++++ b/third_party/rust/chromium_crates_io/vendor/cxxbridge-cmd-1.0.129/src/gen/include/cxx.h
+@@ -2,6 +2,7 @@
+ #include <algorithm>
+ #include <array>
+ #include <cassert>
++#include <concepts>
+ #include <cstddef>
+ #include <cstdint>
+ #include <exception>
+@@ -217,6 +218,7 @@ template <typename T>
+ class Slice<T>::iterator final {
+ public:
+   using iterator_category = std::random_access_iterator_tag;
++  using iterator_concept = std::contiguous_iterator_tag;
+   using value_type = T;
+   using difference_type = std::ptrdiff_t;
+   using pointer = typename std::add_pointer<T>::type;
+@@ -244,6 +246,11 @@ public:
+   bool operator>(const iterator &) const noexcept;
+   bool operator>=(const iterator &) const noexcept;
+ 
++  template <std::integral N>
++  friend iterator operator+(N n, const iterator& it) noexcept {
++      return it + n;
++  }
++
+ private:
+   friend class Slice;
+   void *pos;
