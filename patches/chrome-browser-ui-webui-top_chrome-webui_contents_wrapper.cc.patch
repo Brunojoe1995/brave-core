@@ -1,0 +1,12 @@
+diff --git a/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.cc b/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.cc
+index 7a133f3785088a0558d0f49aa6c21d6327c9fb46..f3b7c999e2cfe357bdd7c06ee446b1c72e02e93c 100644
+--- a/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.cc
++++ b/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.cc
+@@ -231,6 +231,7 @@ content::WebContents* WebUIContentsWrapper::AddNewContents(
+     const blink::mojom::WindowFeatures& window_features,
+     bool user_gesture,
+     bool* was_blocked) {
++  BRAVE_WEBUI_CONTENTS_WRAPPER_ADD_NEW_CONTENTS
+   return host_ ? host_->AddNewContents(source, std::move(new_contents),
+                                        target_url, disposition, window_features,
+                                        user_gesture, was_blocked)
