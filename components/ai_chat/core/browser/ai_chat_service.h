@@ -186,6 +186,7 @@ class AIChatService : public KeyedService,
   void OnPremiumStatusReceived(GetPremiumStatusCallback callback,
                                mojom::PremiumStatus status,
                                mojom::PremiumInfoPtr info);
+  void OnDataDeletedForDisabledStorage(bool success);
 
   bool IsAIChatHistoryEnabled();
   base::SequencedTaskRunner* GetDBTaskRunner();
@@ -202,7 +203,9 @@ class AIChatService : public KeyedService,
 
   base::FilePath profile_path_;
 
+  // Storage for conversations
   base::SequenceBound<AIChatDatabase> ai_chat_db_;
+
   scoped_refptr<base::SequencedTaskRunner> db_task_runner_;
 
   // All conversation metadata. Mainly just titles and uuids. Key is uuid
