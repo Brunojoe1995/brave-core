@@ -1,0 +1,20 @@
+diff --git a/chrome/browser/resources/extensions/sidebar.html.ts b/chrome/browser/resources/extensions/sidebar.html.ts
+index f58da95aed4eb0ba002bb4176f0a82eb5d0f5415..316bf58831715d767d3e3efd7a39538eb97a65f6 100644
+--- a/chrome/browser/resources/extensions/sidebar.html.ts
++++ b/chrome/browser/resources/extensions/sidebar.html.ts
+@@ -33,6 +33,7 @@ export function getHtml(this: ExtensionsSidebarElement) {
+     <cr-ripple></cr-ripple>
+   </a>
+ </cr-menu-selector>
++<!--
+ <div class="separator"></div>
+ <div class="cr-nav-menu-item" id="moreExtensions">
+   <cr-icon id="web-store-icon" icon="extensions-icons:web_store">
+@@ -43,6 +44,7 @@ export function getHtml(this: ExtensionsSidebarElement) {
+   </span>
+   <cr-ripple></cr-ripple>
+ </div>
++-->
+ <!--_html_template_end_-->`;
+   // clang-format on
+ }

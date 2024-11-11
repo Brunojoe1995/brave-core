@@ -1,0 +1,12 @@
+diff --git a/chrome/browser/resources/extensions/item_list.html.ts b/chrome/browser/resources/extensions/item_list.html.ts
+index ba7eac7d5ce28e0045e21705b87c80feabebe01a..3b766ebed79244c7447444e0d7749ce03c6188f4 100644
+--- a/chrome/browser/resources/extensions/item_list.html.ts
++++ b/chrome/browser/resources/extensions/item_list.html.ts
+@@ -73,6 +73,7 @@ export function getHtml(this: ExtensionsItemListElement) {
+           </extensions-item>`, 6)}
+       </div>
+     </div>
++    <extensions-brave-item-list-more-items apps="{{apps}}" extensions="{{extensions}}" />
+   </div>
+ </div>
+ <!--_html_template_end_-->`;
