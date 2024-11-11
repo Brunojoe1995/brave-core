@@ -189,7 +189,6 @@ class AIChatService : public KeyedService,
   void OnDataDeletedForDisabledStorage(bool success);
 
   bool IsAIChatHistoryEnabled();
-  base::SequencedTaskRunner* GetDBTaskRunner();
 
   raw_ptr<ModelService> model_service_;
   raw_ptr<PrefService> profile_prefs_;
@@ -205,8 +204,6 @@ class AIChatService : public KeyedService,
 
   // Storage for conversations
   base::SequenceBound<AIChatDatabase> ai_chat_db_;
-
-  scoped_refptr<base::SequencedTaskRunner> db_task_runner_;
 
   // All conversation metadata. Mainly just titles and uuids. Key is uuid
   ConversationMap conversations_;
