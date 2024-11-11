@@ -32,6 +32,7 @@ final class ScriptExecutionTests: XCTestCase {
     let styledElement: Bool
     let upwardInt: Bool
     let upwardSelector: Bool
+    let localFrameElement: Bool
   }
 
   @MainActor func testSiteStateListenerScript() async throws {
@@ -177,6 +178,7 @@ final class ScriptExecutionTests: XCTestCase {
       contentWorld: RequestBlockingContentScriptHandler.scriptSandbox,
       name: RequestBlockingContentScriptHandler.messageHandlerName,
       messageHandler: MockMessageHandler(callback: { message in
+        print("LOG: RequestBlockingContentScriptHandler message: \(message.body)")
         // Block the request
         return true
       })
@@ -191,7 +193,7 @@ final class ScriptExecutionTests: XCTestCase {
     let testScript = WKUserScript(
       source: source,
       injectionTime: .atDocumentEnd,
-      forMainFrameOnly: true,
+      forMainFrameOnly: false,
       in: RequestBlockingContentScriptHandler.scriptSandbox
     )
     viewController.add(userScript: testScript)
@@ -257,6 +259,7 @@ final class ScriptExecutionTests: XCTestCase {
         "brave.com###test-style-element:style(background-color: red !important)",
         "brave.com###test-upward-int-target:upward(2)",
         "brave.com###test-upward-selector-target:upward(#test-upward-selector)",
+        "brave.com##should-be-blocked-element",
       ].joined(separator: "\n")
     )
     let proceduralFilters = try engine.cosmeticFilterModel(
@@ -428,5 +431,7 @@ final class ScriptExecutionTests: XCTestCase {
     XCTAssertTrue(resultsAfterPump?.styledElement ?? false)
     XCTAssertTrue(resultsAfterPump?.upwardInt ?? false)
     XCTAssertTrue(resultsAfterPump?.upwardSelector ?? false)
+    // Test for local frames
+    XCTAssertTrue(resultsAfterPump?.localFrameElement ?? false)
   }
 }

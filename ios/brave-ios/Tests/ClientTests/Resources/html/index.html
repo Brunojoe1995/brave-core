@@ -105,5 +105,23 @@
         </div>
       </div>
     </div>
+    
+    <h1>Test Local Frames</h1>
+    <script>
+    const onload = () => {
+      const localFrame = document.createElement('iframe');
+      localFrame.id = 'local-iframe';
+      localFrame.src = 'about:blank';
+      localFrame.width = 400;
+      localFrame.height = 400;
+      document.body.appendChild(localFrame);
+      
+      const localFrameAd = document.createElement('should-be-blocked');
+      localFrameAd.id = "should-be-blocked";
+      localFrameAd.innerText = 'This should be blocked';
+      localFrame.contentDocument.body.appendChild(localFrameAd);
+    };
+    window.onload = onload;
+    </script>
   </body>
 </html>
