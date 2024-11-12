@@ -37,7 +37,8 @@ cargo_crate("lib") {
   build_deps = [ "//brave/third_party/rust/autocfg/v1:buildrs_support" ]
   build_root = "//brave/third_party/rust/chromium_crates_io/vendor/lock_api-0.4.9/build.rs"
   build_sources = [ "//brave/third_party/rust/chromium_crates_io/vendor/lock_api-0.4.9/build.rs" ]
-  rustflags = [
+  rustflags = []
+  rustflags += [
     "--cfg",
     "has_const_fn_trait_bound",
   ]

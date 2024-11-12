@@ -99,6 +99,9 @@ license_files = ['LICENSE']
 [crate.adss]
 license_files = ['LICENSE']
 
+[crate.ahash]
+extra_kv = { allow_unstable_features = 'min_specialization' }
+
 [crate.ansi_term]
 license_files = ['LICENCE']
 
