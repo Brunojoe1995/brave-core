@@ -2,7 +2,15 @@ diff --git a/chrome/browser/resources/extensions/BUILD.gn b/chrome/browser/resou
 index ee8cbb304d95e41884ba56331d7c187940e1f33f..d44ff4b7f1e066655ca7c56893cadcbe852146be 100644
 --- a/chrome/browser/resources/extensions/BUILD.gn
 +++ b/chrome/browser/resources/extensions/BUILD.gn
-@@ -126,4 +126,5 @@ build_webui("build") {
+@@ -156,6 +156,7 @@ build_webui("build") {
+     "//ui/webui/resources/cr_elements:build_ts",
+     "//ui/webui/resources/js:build_ts",
+   ]
++  ts_deps += ["//third_party/polymer/v3_0:library"]
+ 
+   webui_context_type = "trusted"
+   optimize = optimize_webui
+@@ -163,4 +164,5 @@ build_webui("build") {
      optimize_webui_host = "extensions"
      optimize_webui_in_files = [ "extensions.js" ]
    }

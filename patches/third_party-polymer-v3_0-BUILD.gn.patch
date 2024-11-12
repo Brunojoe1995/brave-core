@@ -1,5 +1,5 @@
 diff --git a/third_party/polymer/v3_0/BUILD.gn b/third_party/polymer/v3_0/BUILD.gn
-index 6defedddd36b89d5ea7164e322711d5a13dc9e62..c337d31bdb8106238231d05b39471d0c4232573a 100644
+index 52a5cedded6821629a4a4336c9d06bdd41b06cce..3abb1cf085662542645d4d851d4d0c65cfacd703 100644
 --- a/third_party/polymer/v3_0/BUILD.gn
 +++ b/third_party/polymer/v3_0/BUILD.gn
 @@ -34,10 +34,12 @@ js_files = [
@@ -15,7 +15,15 @@ index 6defedddd36b89d5ea7164e322711d5a13dc9e62..c337d31bdb8106238231d05b39471d0c
    js_files += [
      "iron-a11y-announcer/iron-a11y-announcer.js",
      "iron-behaviors/iron-control-state.js",
-@@ -263,11 +265,13 @@ ts_library("library") {
+@@ -157,6 +159,7 @@ ts_library("library") {
+     "//ui/webui/resources/cr_components/searchbox:build_ts",
+     "//ui/webui/resources/cr_elements:build_ts",
+   ]
++  visibility += ["//chrome/browser/resources/extensions:build_ts"]
+ 
+   if (is_win) {
+     visibility += [ "//chrome/browser/resources/conflicts:build_ts" ]
+@@ -252,11 +255,13 @@ ts_library("library") {
    # Also needed on LaCros for Print Preview. Remove once CrOS Print Preview
    # launches.
    if (is_chromeos) {
@@ -29,7 +37,7 @@ index 6defedddd36b89d5ea7164e322711d5a13dc9e62..c337d31bdb8106238231d05b39471d0c
      definitions += [
        "components-chromium/iron-a11y-announcer/iron-a11y-announcer.d.ts",
        "components-chromium/iron-collapse/iron-collapse.d.ts",
-@@ -296,4 +300,5 @@ ts_library("library") {
+@@ -292,4 +297,5 @@ ts_library("library") {
        "components-chromium/paper-tooltip/paper-tooltip.d.ts",
      ]
    }
