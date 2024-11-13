@@ -180,6 +180,11 @@ class ConversationHandler : public mojom::ConversationHandler,
   void AddObserver(Observer* observer);
   void RemoveObserver(Observer* observer);
 
+  // When the conversation needs to be provided with a new reference to the
+  // conversation metadata.
+  void SetConversationMetadata(mojom::Conversation* conversation);
+  void UpdateArchiveContent(mojom::ConversationArchivePtr conversation_data);
+
   bool IsAnyClientConnected();
   bool HasAnyHistory();
   bool IsRequestInProgress();
@@ -284,6 +289,7 @@ class ConversationHandler : public mojom::ConversationHandler,
 
  private:
   friend class ::AIChatUIBrowserTest;
+  FRIEND_TEST_ALL_PREFIXES(AIChatServiceUnitTest, DeleteAssociatedWebContent);
   FRIEND_TEST_ALL_PREFIXES(ConversationHandlerUnitTest,
                            UpdateOrCreateLastAssistantEntry_Delta);
   FRIEND_TEST_ALL_PREFIXES(ConversationHandlerUnitTest,
@@ -298,9 +304,6 @@ class ConversationHandler : public mojom::ConversationHandler,
                            OnGetStagedEntriesFromContent_FailedChecks);
   FRIEND_TEST_ALL_PREFIXES(ConversationHandlerUnitTest, SelectedLanguage);
   FRIEND_TEST_ALL_PREFIXES(PageContentRefineTest, LocalModelsUpdater);
-  FRIEND_TEST_ALL_PREFIXES(PageContentRefineTest, TextEmbedder);
-  FRIEND_TEST_ALL_PREFIXES(PageContentRefineTest, TextEmbedderInitialized);
-  FRIEND_TEST_ALL_PREFIXES(PageContentRefineTest, LeoLocalModelsUpdater);
   FRIEND_TEST_ALL_PREFIXES(PageContentRefineTest, TextEmbedder);
   FRIEND_TEST_ALL_PREFIXES(PageContentRefineTest, TextEmbedderInitialized);
 
@@ -416,7 +419,7 @@ class ConversationHandler : public mojom::ConversationHandler,
   bool is_content_refined_ = false;
   // When this is true, the most recent content retrieval was different to the
   // previous one.
-  bool is_content_different_ = false;
+  bool is_content_different_ = true;
 
   bool is_print_preview_fallback_requested_ = false;
 
