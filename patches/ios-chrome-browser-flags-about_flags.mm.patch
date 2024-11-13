@@ -1,8 +1,8 @@
 diff --git a/ios/chrome/browser/flags/about_flags.mm b/ios/chrome/browser/flags/about_flags.mm
-index c9af85ed0c30802206781ae22a0cc6e1644910a5..d4c996da5c84b3cac8fecefacddc897ff27a54ed 100644
+index 8554ee32b0c20fb345428e4cc45b122405f1c7d0..a96095ad5c595b2d14c4dcd724211d507e273eb8 100644
 --- a/ios/chrome/browser/flags/about_flags.mm
 +++ b/ios/chrome/browser/flags/about_flags.mm
-@@ -1232,6 +1232,7 @@ const FeatureEntry::FeatureVariation kNewFeedPositioningVariations[] = {
+@@ -1252,6 +1252,7 @@ const FeatureEntry::FeatureVariation
  //
  // When adding a new choice, add it to the end of the list.
  const flags_ui::FeatureEntry kFeatureEntries[] = {
