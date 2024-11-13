@@ -277,11 +277,7 @@ TEST_F(P3AServiceTest, UpdateLogsAndSendExpress) {
   EXPECT_EQ(p3a_creative_sent_metrics_.size(), 0U);
 }
 
-#if !BUILDFLAG(IS_MAC)
 #define MAYBE_UpdateLogsAndSendSlow UpdateLogsAndSendSlow
-#else
-#define MAYBE_UpdateLogsAndSendSlow DISABLED_UpdateLogsAndSendSlow
-#endif
 
 TEST_F(P3AServiceTest, MAYBE_UpdateLogsAndSendSlow) {
   // Increase upload interval to reduce test time (less tasks to execute)

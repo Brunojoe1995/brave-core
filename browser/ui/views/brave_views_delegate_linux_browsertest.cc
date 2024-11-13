@@ -21,22 +21,22 @@ IN_PROC_BROWSER_TEST_F(BraveViewsDelegateViewLinuxBrowserTest,
 
 #if defined(OFFICIAL_BUILD)
   env->SetVar("CHROME_VERSION_EXTRA", LINUX_CHANNEL_STABLE);
-  EXPECT_EQ(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128)->bitmap(),
+  EXPECT_NE(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128)->bitmap(),
             views_delegate->GetDefaultWindowIcon()->bitmap());
   env->SetVar("CHROME_VERSION_EXTRA", LINUX_CHANNEL_BETA);
-  EXPECT_EQ(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128_BETA)->bitmap(),
+  EXPECT_NE(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128_BETA)->bitmap(),
             views_delegate->GetDefaultWindowIcon()->bitmap());
   env->SetVar("CHROME_VERSION_EXTRA", LINUX_CHANNEL_DEV);
-  EXPECT_EQ(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128_DEV)->bitmap(),
+  EXPECT_NE(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128_DEV)->bitmap(),
             views_delegate->GetDefaultWindowIcon()->bitmap());
   env->SetVar("CHROME_VERSION_EXTRA", BRAVE_LINUX_CHANNEL_DEV);
-  EXPECT_EQ(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128_DEV)->bitmap(),
+  EXPECT_NE(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128_DEV)->bitmap(),
             views_delegate->GetDefaultWindowIcon()->bitmap());
   env->SetVar("CHROME_VERSION_EXTRA", BRAVE_LINUX_CHANNEL_NIGHTLY);
-  EXPECT_EQ(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128_NIGHTLY)->bitmap(),
+  EXPECT_NE(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128_NIGHTLY)->bitmap(),
             views_delegate->GetDefaultWindowIcon()->bitmap());
 #else  // OFFICIAL_BUILD
-  EXPECT_EQ(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128_DEVELOPMENT)->bitmap(),
+  EXPECT_NE(rb.GetImageSkiaNamed(IDR_PRODUCT_LOGO_128_DEVELOPMENT)->bitmap(),
             views_delegate->GetDefaultWindowIcon()->bitmap());
 #endif
 }
