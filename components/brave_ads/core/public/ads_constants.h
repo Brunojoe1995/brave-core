@@ -10,6 +10,8 @@
 
 namespace brave_ads {
 
+ADS_EXPORT extern const char kTraceEventCategory[];
+
 ADS_EXPORT extern const char kDatabaseFilename[];
 
 // TODO(https://github.com/brave/brave-browser/issues/39795): Transition away

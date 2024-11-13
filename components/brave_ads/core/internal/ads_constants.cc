@@ -7,6 +7,8 @@
 
 namespace brave_ads {
 
+constexpr char kTraceEventsCategory[] = "brave.ads";
+
 constexpr char kDatabaseFilename[] = "database.sqlite";
 
 constexpr char kClientJsonFilename[] = "client.json";

@@ -9,17 +9,29 @@
 
 #include "base/functional/bind.h"
 #include "base/strings/string_util.h"
+#include "base/trace_event/trace_event.h"
 #include "brave/components/brave_ads/core/internal/ads_client/ads_client_util.h"
 #include "brave/components/brave_ads/core/mojom/brave_ads.mojom.h"
 #include "brave/components/brave_ads/core/public/ads_client/ads_client.h"
+#include "brave/components/brave_ads/core/public/ads_constants.h"
 
 namespace brave_ads::database {
 
 namespace {
 
+// ID is used in TRACE_ID_WITH_SCOPE(). Must be unique accoss the process.
+int MakeUniquePerfId() {
+  static int counter = 0;
+  ++counter;
+  return counter;
+}
+
 void RunDBTransactionCallback(
     ResultCallback callback,
     mojom::DBTransactionResultInfoPtr mojom_db_transaction_result) {
+  // TRACE_EVENT_BEGIN2(kTraceEventCategory, "RunDBTransaction", "sql", "a",
+  //                    "url2", "b");
+
   if (IsError(mojom_db_transaction_result)) {
     return std::move(callback).Run(/*success=*/false);
   }
@@ -45,6 +57,12 @@ bool IsError(
 
 void RunDBTransaction(mojom::DBTransactionInfoPtr mojom_db_transaction,
                       ResultCallback callback) {
+  // const auto event_id = MakeUniquePerfId();
+  // TRACE_EVENT_NESTABLE_ASYNC_BEGIN0(
+  //     kTraceEventCategory, "RunDBTransaction",
+  //     TRACE_ID_WITH_SCOPE("HandleMutations", event_id));
+  // return event_id;
+
   GetAdsClient().RunDBTransaction(
       std::move(mojom_db_transaction),
       base::BindOnce(&RunDBTransactionCallback, std::move(callback)));
