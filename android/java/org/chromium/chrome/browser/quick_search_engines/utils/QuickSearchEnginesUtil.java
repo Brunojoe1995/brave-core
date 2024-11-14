@@ -8,12 +8,12 @@ package org.chromium.chrome.browser.quick_search_engines.utils;
 import org.chromium.base.BravePreferenceKeys;
 import org.chromium.chrome.browser.preferences.ChromeSharedPreferences;
 import org.chromium.chrome.browser.profiles.Profile;
+import org.chromium.chrome.browser.quick_search_engines.settings.QuickSearchEnginesModel;
 import org.chromium.chrome.browser.search_engines.TemplateUrlServiceFactory;
 import org.chromium.chrome.browser.search_engines.settings.SearchEngineAdapter;
 import org.chromium.chrome.browser.util.SharedPreferencesHelper;
 import org.chromium.components.search_engines.TemplateUrl;
 import org.chromium.components.search_engines.TemplateUrlService;
-import org.chromium.chrome.browser.quick_search_engines.settings.QuickSearchEnginesModel;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

@@ -2559,7 +2559,8 @@ public abstract class BraveActivity extends ChromeActivity
 
     public void showQuickActionSearchEnginesView(int keypadHeight) {
         Log.e("quick_search", "showQuickActionSearchEnginesView");
-        if (mQuickSearchEnginesView != null) {
+        if (mQuickSearchEnginesView != null
+                || !QuickSearchEnginesUtil.getQuickSearchEnginesFeature()) {
             return;
         }
         mQuickSearchEnginesView =
@@ -2655,7 +2656,8 @@ public abstract class BraveActivity extends ChromeActivity
 
     @Override
     public void onKeyboardOpened(int keyboardHeight) {
-        if (QuickSearchEnginesUtil.getQuickSearchEnginesFeature()) {
+        if (getBraveToolbarLayout().isUrlBarFocused()
+                && !getBraveToolbarLayout().getLocationBarQuery().isEmpty()) {
             Log.e("quick_search", "onKeyboardOpened");
             showQuickActionSearchEnginesView(keyboardHeight);
         }
@@ -2663,9 +2665,7 @@ public abstract class BraveActivity extends ChromeActivity
 
     @Override
     public void onKeyboardClosed() {
-        if (QuickSearchEnginesUtil.getQuickSearchEnginesFeature()) {
-            Log.e("quick_search", "onKeyboardClosed");
-            removeQuickActionSearchEnginesView();
-        }
+        Log.e("quick_search", "onKeyboardClosed");
+        removeQuickActionSearchEnginesView();
     }
 }
