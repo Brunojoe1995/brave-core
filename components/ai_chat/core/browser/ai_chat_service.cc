@@ -426,6 +426,9 @@ void AIChatService::OpenConversationWithStagedEntries(
       associated_content->GetContentId(), associated_content);
   CHECK(conversation);
 
+  if (ai_chat_metrics_ != nullptr) {
+    ai_chat_metrics_->HandleOpenViaEntryPoint(EntryPoint::kBraveSearch);
+  }
   // Open AI Chat and trigger a fetch of staged conversations from Brave Search.
   std::move(open_ai_chat).Run();
   conversation->MaybeFetchOrClearContentStagedConversation();
