@@ -5,7 +5,10 @@
 
 #include "third_party/blink/renderer/modules/speech/speech_synthesis.h"
 
+#include <array>
+
 #include "base/compiler_specific.h"
+#include "base/strings/cstring_view.h"
 #include "brave/third_party/blink/renderer/brave_farbling_constants.h"
 #include "brave/third_party/blink/renderer/core/farbling/brave_session_cache.h"
 #include "third_party/blink/public/platform/web_content_settings_client.h"
@@ -42,13 +45,13 @@ void SpeechSynthesis::OnSetVoiceList(
         fake_voice->is_default = false;
         brave::FarblingPRNG prng = brave::BraveSessionCache::From(*context)
                                        .MakePseudoRandomGenerator();
-        const char* kFakeNames[] = {
-            "Hubert", "Vernon", "Rudolph",   "Clayton",    "Irving",
-            "Wilson", "Alva",   "Harley",    "Beauregard", "Cleveland",
-            "Cecil",  "Reuben", "Sylvester", "Jasper"};
+        auto kFakeNames = std::to_array<base::cstring_view>(
+            {"Hubert", "Vernon", "Rudolph", "Clayton", "Irving", "Wilson",
+             "Alva", "Harley", "Beauregard", "Cleveland", "Cecil", "Reuben",
+             "Sylvester", "Jasper"});
         const int kFakeNamesCount = std::size(kFakeNames);
         fake_voice->name =
-            UNSAFE_TODO(WTF::String(kFakeNames[prng() % kFakeNamesCount]));
+            WTF::String(kFakeNames[prng() % kFakeNamesCount].data());
       }
     }
     voice_list_.push_back(
